@@ -1,0 +1,22 @@
+{
+  "name": "@spothero/arg",
+  "version": "1.4.0",
+  "description": "Lightweight URL argument and parameter parser.",
+  "main": "arg.js",
+  "repository": "https://github.com/stretchr/arg.js",
+  "author": "stretchr",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "http://nexus.kickthe.tires:8081/repository/spothero-private-npm",
+    "email": "engineering@spothero.com",
+    "always-auth": true,
+    "strict-ssl": false
+  },
+  "scripts": {
+    "nexus": "npm publish"
+  },
+  "engines": {
+    "node": ">=10.3.0",
+    "npm": ">=6.1.0"
+  }
+}
