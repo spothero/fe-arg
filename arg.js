@@ -1,7 +1,7 @@
 /* eslint-disable */
 /*
+  https://github.com/stretchr/arg.js
 
-  arg.js - v1.4
   JavaScript URL argument processing once and for all.
 
   by Mat Ryer and Ryan Quinn
@@ -24,8 +24,9 @@
   FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
   DEALINGS IN THE SOFTWARE.
-
 */
+
+const window = require('ssr-window').window;
 
 (function(global){
 
@@ -40,7 +41,6 @@
     var Arg = function(){
       return Arg.get.apply(global, arguments);
     };
-    Arg.version = "1.4.0";
 
     /**
      * Parses the arg string into an Arg.Arg object.
