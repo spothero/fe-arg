@@ -25,52 +25,36 @@
   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
   DEALINGS IN THE SOFTWARE.
 */
-
-const window = require('ssr-window').window;
-
-(function(global){
-
+module.exports = {
   /**
-   * MakeArg makes the Arg namespace.
-   * var Arg = MakeArg();
-   */
-  global.MakeArg = function(){
-
-    /** @namespace
-     */
-    var Arg = function(){
-      return Arg.get.apply(global, arguments);
-    };
-
-    /**
      * Parses the arg string into an Arg.Arg object.
      */
-    Arg.parse = function(s){
+    parse: function(s){
       if (!s) return {};
       if (s.indexOf("=")===-1 && s.indexOf("&")===-1) return {};
-      s = Arg._cleanParamStr(s);
+      s = this._cleanParamStr(s);
       var obj = {};
       var pairs = s.split("&");
       for (var pi in pairs) {
         if(pairs.hasOwnProperty(pi)){
           var kvsegs = pairs[pi].split("=");
-          var key = decodeURIComponent(kvsegs[0]), val = Arg.__decode(kvsegs[1]);
-          Arg._access(obj, key, val);
+          var key = decodeURIComponent(kvsegs[0]), val = this.__decode(kvsegs[1]);
+          this._access(obj, key, val);
         }
       }
       return obj;
-    };
+    },
 
     /**
      * Decodes a URL component (including resolving + to spaces)
      */
-    Arg.__decode = function(s) {
+    __decode: function(s) {
       while (s && s.indexOf("+")>-1) {
         s = s.replace("+", " ");
       }
       s = decodeURIComponent(s);
       return s;
-    };
+    },
 
     /**
      * Helper method to get/set deep nested values in an object based on a string selector
@@ -81,7 +65,7 @@ const window = require('ssr-window').window;
      *                              If value is undefined, operates in 'get' mode to return value at obj->selector
      * @return {Mixed}
      */
-    Arg._access = function(obj, selector, value) {
+    _access: function(obj, selector, value) {
       var shouldSet = typeof value !== "undefined";
       var selectorBreak = -1;
       var coerce_types = {
@@ -97,7 +81,7 @@ const window = require('ssr-window').window;
 
       // No dot or array notation so we're at a leaf, set value
       if (selectorBreak === -1) {
-        if (Arg.coerceMode) {
+        if (this.coerceMode) {
           value = value && !isNaN(value)            ? +value              // number
                 : value === 'undefined'             ? undefined           // undefined
                 : coerce_types[value] !== undefined ? coerce_types[value] // true, false, null
@@ -123,20 +107,20 @@ const window = require('ssr-window').window;
             nextSelector = parseInt(nextSelector, 10);
           }
 
-          return Arg._access(obj[currentRoot], nextSelector, value);
+          return this._access(obj[currentRoot], nextSelector, value);
         case '.':
           // Intialize node as an object if we haven't visted it before
           obj[currentRoot] = obj[currentRoot] || {};
-          return Arg._access(obj[currentRoot], nextSelector, value);
+          return this._access(obj[currentRoot], nextSelector, value);
       }
 
       return obj;
-    };
+    },
 
     /**
      * Turns the specified object into a URL parameter string.
      */
-    Arg.stringify = function(obj, keyPrefix) {
+    stringify: function(obj, keyPrefix) {
 
       switch (typeof(obj)) {
       case "object":
@@ -156,7 +140,7 @@ const window = require('ssr-window').window;
           }
 
           if (typeof val === "object") {
-            segs.push(Arg.stringify(val, thisKey));
+            segs.push(this.stringify(val, thisKey));
           } else {
             segs.push(encodeURIComponent(thisKey)+"="+encodeURIComponent(val));
           }
@@ -167,7 +151,7 @@ const window = require('ssr-window').window;
 
       return encodeURIComponent(obj);
 
-    };
+    },
 
     /**
      * Generates a URL with the given parameters.
@@ -176,28 +160,28 @@ const window = require('ssr-window').window;
      * (path, object, object) = A URL to the specified path with the first object as query parameters,
      * and the second object as hash parameters.
      */
-    Arg.url = function(){
+    url: function(){
 
-      var sep = (Arg.urlUseHash ? Arg.hashQuerySeperator : Arg.querySeperator);
+      var sep = (this.urlUseHash ? this.hashQuerySeperator : this.querySeperator);
       var segs = [location.pathname, sep];
       var args = {};
 
       switch (arguments.length) {
-      case 1: // Arg.url(params)
-        segs.push(Arg.stringify(arguments[0]));
+      case 1: // this.url(params)
+        segs.push(this.stringify(arguments[0]));
         break;
-      case 2: // Arg.url(path, params)
-        segs[0] = Arg._cleanPath(arguments[0]);
-        args = Arg.parse(arguments[0]);
-        args = Arg.merge(args, arguments[1]);
-        segs.push(Arg.stringify(args));
+      case 2: // this.url(path, params)
+        segs[0] = this._cleanPath(arguments[0]);
+        args = this.parse(arguments[0]);
+        args = this.merge(args, arguments[1]);
+        segs.push(this.stringify(args));
         break;
-      case 3: // Arg.url(path, query, hash)
-        segs[0] = Arg._cleanPath(arguments[0]);
-        segs[1] = Arg.querySeperator;
-        segs.push(Arg.stringify(arguments[1]));
-        (typeof(arguments[2])==="string") ? segs.push(Arg.hashSeperator) : segs.push(Arg.hashQuerySeperator);
-        segs.push(Arg.stringify(arguments[2]));
+      case 3: // this.url(path, query, hash)
+        segs[0] = this._cleanPath(arguments[0]);
+        segs[1] = this.querySeperator;
+        segs.push(this.stringify(arguments[1]));
+        (typeof(arguments[2])==="string") ? segs.push(this.hashSeperator) : segs.push(this.hashQuerySeperator);
+        segs.push(this.stringify(arguments[2]));
       }
 
       var s = segs.join("");
@@ -209,105 +193,105 @@ const window = require('ssr-window').window;
 
       return s;
 
-    };
+    },
 
-    /** urlUseHash tells the Arg.url method to always put the parameters in the hash. */
-    Arg.urlUseHash = false;
+    /** urlUseHash tells the this.url method to always put the parameters in the hash. */
+    urlUseHash: false,
 
     /** The string that seperates the path and query parameters. */
-    Arg.querySeperator = "?";
+    querySeperator: "?",
 
     /** The string that seperates the path or query, and the hash property. */
-    Arg.hashSeperator = "#";
+    hashSeperator: "#",
 
     /** The string that seperates the the path or query, and the hash query parameters. */
-    Arg.hashQuerySeperator = "#?";
+    hashQuerySeperator: "#?",
 
     /** When parsing values if they should be coerced into primitive types, ie Number, Boolean, Undefined */
-    Arg.coerceMode = true;
+    coerceMode: true,
 
     /**
      * Gets all parameters from the current URL.
      */
-    Arg.all = function(){
-      var merged = Arg.parse(Arg.querystring() + "&" + Arg.hashstring());
-      return Arg._all ? Arg._all : Arg._all = merged;
-    };
+    all: function(){
+      var merged = this.parse(this.querystring() + "&" + this.hashstring());
+      return this._all ? this._all : this._all = merged;
+    },
 
     /**
      * Gets a parameter from the URL.
      */
-    Arg.get = function(selector, def){
-      var val = Arg._access(Arg.all(), selector);
+    get: function(selector, def){
+      var val = this._access(this.all(), selector);
       return typeof(val) === "undefined" ? def : val;
-    };
+    },
 
     /**
      * Gets the query string parameters from the current URL.
      */
-    Arg.query = function(){
-      return Arg._query ? Arg._query : Arg._query = Arg.parse(Arg.querystring());
-    };
+    query: function(){
+      return this._query ? this._query : this._query = this.parse(this.querystring());
+    },
 
     /**
      * Gets the hash string parameters from the current URL.
      */
-    Arg.hash = function(){
-      return Arg._hash ? Arg._hash : Arg._hash = Arg.parse(Arg.hashstring());
-    };
+    hash: function(){
+      return this._hash ? this._hash : this._hash = this.parse(this.hashstring());
+    },
 
     /**
      * Gets the query string from the URL (the part after the ?).
      */
-    Arg.querystring = function(){
-      return Arg._cleanParamStr(location.search);
-    };
+    querystring: function(){
+      return this._cleanParamStr(location.search);
+    },
 
     /**
      * Gets the hash param string from the URL (the part after the #).
      */
-    Arg.hashstring = function(){
+    hashstring: function(){
       var rawHref = location.href;
       var hashIndex = rawHref.indexOf("#");
       var hash = hashIndex >= 0 ? rawHref.substr(hashIndex) : "";
-      return Arg._cleanParamStr(hash);
-    };
+      return this._cleanParamStr(hash);
+    },
 
     /*
      * Cleans the URL parameter string stripping # and ? from the beginning.
      */
-    Arg._cleanParamStr = function(s){
+    _cleanParamStr: function(s){
 
-      if (s.indexOf(Arg.querySeperator)>-1)
-        s = s.split(Arg.querySeperator)[1];
+      if (s.indexOf(this.querySeperator)>-1)
+        s = s.split(this.querySeperator)[1];
 
-      if (s.indexOf(Arg.hashSeperator)>-1)
-        s = s.split(Arg.hashSeperator)[1];
+      if (s.indexOf(this.hashSeperator)>-1)
+        s = s.split(this.hashSeperator)[1];
 
       if (s.indexOf("=")===-1 && s.indexOf("&")===-1)
         return "";
 
-      while (s.indexOf(Arg.hashSeperator) === 0 || s.indexOf(Arg.querySeperator) === 0)
+      while (s.indexOf(this.hashSeperator) === 0 || s.indexOf(this.querySeperator) === 0)
         s = s.substr(1);
 
       return s;
-    };
+    },
 
-    Arg._cleanPath = function(p){
+    _cleanPath: function(p){
 
-      if (p.indexOf(Arg.querySeperator)>-1)
-        p = p.substr(0,p.indexOf(Arg.querySeperator));
+      if (p.indexOf(this.querySeperator)>-1)
+        p = p.substr(0,p.indexOf(this.querySeperator));
 
-      if (p.indexOf(Arg.hashSeperator)>-1)
-        p = p.substr(0,p.indexOf(Arg.hashSeperator));
+      if (p.indexOf(this.hashSeperator)>-1)
+        p = p.substr(0,p.indexOf(this.hashSeperator));
 
       return p;
-    };
+    },
 
     /**
      * Merges all the arguments into a new object.
      */
-    Arg.merge = function(){
+    merge: function(){
       var all = {};
       for (var ai in arguments){
         if(arguments.hasOwnProperty(ai)){
@@ -319,25 +303,6 @@ const window = require('ssr-window').window;
         }
       }
       return all;
-    };
+    }
+};
 
-    return Arg;
-
-  };
-
-  if (typeof define === 'function' && define.amd) {
-    /* AMD support */
-    define(function(){
-      return MakeArg();
-    });
-  } else if (typeof module === 'object' && module.exports) {
-    /* CJS support */
-    module.exports = MakeArg();
-  } else {
-    /** @namespace
-     * Arg is the root namespace for all arg.js functionality.
-     */
-    global.Arg = MakeArg();
-  }
-
-})(window);

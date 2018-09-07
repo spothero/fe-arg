@@ -1,21 +1,13 @@
 {
   "name": "@spothero/arg",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "Lightweight URL argument and parameter parser.",
-  "main": "lib/arg.js",
+  "main": "arg.js",
   "repository": "https://github.com/stretchr/arg.js",
   "author": "stretchr",
   "license": "MIT",
   "scripts": {
-    "clean": "rm -rf lib || true",
-    "build": "npm run clean && mkdir lib && babel arg.js --out-file lib/arg.js",
-    "release": "npm run build && npm publish"
-  },
-  "devDependencies": {
-    "babel-cli": "6.26.0"
-  },
-  "dependencies": {
-    "ssr-window": "1.0.1"
+    "release": "npm publish"
   },
   "engines": {
     "node": ">=10.3.0",
