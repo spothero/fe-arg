@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Lightweight URL argument and parameter parser.",
   "main": "arg.js",
-  "repository": "https://github.com/stretchr/arg.js",
+  "repository": "https://github.com/spothero/fe-arg",
   "author": "stretchr",
   "license": "MIT",
   "scripts": {
