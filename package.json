@@ -2,15 +2,23 @@
   "name": "@spothero/arg",
   "version": "2.0.1",
   "description": "Lightweight URL argument and parameter parser.",
-  "main": "arg.js",
+  "main": "lib/arg.js",
   "repository": "https://github.com/spothero/fe-arg",
   "author": "stretchr",
   "license": "MIT",
   "scripts": {
+    "clean": "rm -rf lib || true",
+    "start": "ace",
+    "build": "npm run clean && mkdir lib && ace -- generateBabelrc && babel src -d lib",
     "release": "npm publish --access public"
   },
   "engines": {
     "node": ">=10.3.0",
     "npm": ">=6.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.1.2",
+    "@babel/core": "7.1.2",
+    "@spothero/ace": "4.3.0"
   }
 }
