@@ -4,5 +4,16 @@
 .env
 .sass-cache
 .venv
+.vscode
+*.code-workspace
 node_modules
 _internal
+lib
+/css
+/js/bundle.js
+/js/*.map
+/js/*.hot-update.*
+checkstyle-*.xml
+cypress/generated-webpack-settings.json
+cypress/screenshots
+cypress/videos

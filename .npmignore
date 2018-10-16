@@ -1,1 +1,10 @@
 node_modules
+cypress
+js
+scripts
+src
+index.html
+.babelrc
+.editorconfig
+.eslintrc
+.nvmrc
