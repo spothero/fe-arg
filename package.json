@@ -10,7 +10,7 @@
     "clean": "rm -rf lib || true",
     "start": "ace",
     "build": "npm run clean && mkdir lib && ace -- generateBabelrc && babel src -d lib",
-    "release": "npm publish --access public"
+    "release": "npm run build && npm publish --access public"
   },
   "engines": {
     "node": ">=10.3.0",
