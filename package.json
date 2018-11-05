@@ -19,6 +19,6 @@
   "devDependencies": {
     "@babel/cli": "7.1.2",
     "@babel/core": "7.1.2",
-    "@spothero/ace": "4.3.0"
+    "@spothero/ace": "4.3.1"
   }
 }
