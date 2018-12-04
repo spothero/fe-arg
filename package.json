@@ -5,7 +5,7 @@
   "main": "lib/arg.js",
   "repository": "https://github.com/spothero/fe-arg",
   "author": "stretchr",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "scripts": {
     "clean": "rm -rf lib || true",
     "start": "ace",
