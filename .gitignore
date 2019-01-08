@@ -10,9 +10,9 @@ node_modules
 _internal
 lib
 /css
-/js/bundle.js
-/js/*.map
-/js/*.hot-update.*
+/src/js/*.map
+/src/js/*.hot-update.*
+/dist
 checkstyle-*.xml
 cypress/generated-webpack-settings.json
 cypress/screenshots

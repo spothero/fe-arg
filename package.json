@@ -8,8 +8,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "clean": "rm -rf lib || true",
-    "start": "ace",
-    "build": "npm run clean && mkdir lib && ace -- generateBabelrc && babel src -d lib",
+    "start": "ACE_NPM_EVENT=start ace",
+    "build": "ACE_NPM_EVENT=build npm run clean && mkdir lib && ace -- generateBabelrc && babel src/arg.js -o lib/arg.js",
     "release": "npm run build && npm publish --access public"
   },
   "engines": {
@@ -17,8 +17,8 @@
     "npm": ">=6.1.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.1.2",
-    "@babel/core": "7.1.2",
-    "@spothero/ace": "4.3.1"
+    "@babel/cli": "7.2.3",
+    "@babel/core": "7.2.2",
+    "@spothero/ace": "5.2.2"
   }
 }
