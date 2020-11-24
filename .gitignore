@@ -8,6 +8,7 @@
 *.code-workspace
 node_modules
 _internal
+CHANGELOG.tmp
 lib
 /css
 /src/js/*.map
