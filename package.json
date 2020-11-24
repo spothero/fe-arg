@@ -1,6 +1,6 @@
 {
   "name": "@spothero/arg",
-  "version": "2.0.4-beta.0",
+  "version": "2.0.4",
   "description": "Lightweight URL argument and parameter parser.",
   "main": "lib/arg.js",
   "repository": "https://github.com/spothero/fe-arg",
