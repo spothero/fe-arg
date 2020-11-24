@@ -1,3 +1,8 @@
+# 2.0.4 - 11/24/2020
+
+## Miscellaneous Updates
+* [[386c67b](https://github.com/spothero/fe-arg/commit/386c67b)] - `ci:` Add npm-publisher and commitlint-config ([#3](https://github.com/spothero/fe-arg/pull/3)) (Boiar Qin)
+
 # 2.0.4-beta.0 - 11/24/2020
 ## Miscellaneous Updates
 * [[ec8afe8](https://github.com/spothero/fe-arg/commit/ec8afe8)] - `ci:` Add npm-publisher and commitlint-config (Boiar Qin)
