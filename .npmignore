@@ -8,3 +8,4 @@ index.html
 .editorconfig
 .eslintrc
 .nvmrc
+commitlint.config.js
