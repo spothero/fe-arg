@@ -1,6 +1,6 @@
 {
   "name": "@spothero/arg",
-  "version": "2.0.3",
+  "version": "2.0.4-beta.0",
   "description": "Lightweight URL argument and parameter parser.",
   "main": "lib/arg.js",
   "repository": "https://github.com/spothero/fe-arg",
@@ -10,7 +10,13 @@
     "clean": "rm -rf lib || true",
     "start": "ACE_NPM_EVENT=start ace",
     "build": "ACE_NPM_EVENT=build npm run clean && mkdir lib && ace -- generateBabelrc && NODE_ENV=production babel src/arg.js -o lib/arg.js",
-    "release": "npm run build && npm publish --access public"
+    "prepublishOnly": "npm run build",
+    "release": "npm-release -- public"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   },
   "engines": {
     "node": ">=10.3.0",
@@ -19,6 +25,8 @@
   "devDependencies": {
     "@babel/cli": "7.2.3",
     "@babel/core": "7.3.4",
-    "@spothero/ace": "6.0.0"
+    "@spothero/ace": "6.0.0",
+    "@spothero/commitlint-config": "2.2.0",
+    "@spothero/npm-publisher": "2.4.1"
   }
 }
