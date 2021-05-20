@@ -1,3 +1,7 @@
+# 2.1.0 - 05/20/2021
+## Dependency Updates
+* [[e1e2068](https://github.com/spothero/fe-arg/commit/e1e2068)] - Update npm-publisher and commitlint-config deps ([#4](https://github.com/spothero/fe-arg/pull/4)) (Eddie Padin)
+
 # 2.0.4 - 11/24/2020
 
 ## Miscellaneous Updates
